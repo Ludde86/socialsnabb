@@ -12,10 +12,14 @@ import { professionellaAlternativ } from "./data/professionellaAlternativ";
 import { hashtagsData } from "./data/hashtags";
 import { foretagstyper } from "./data/foretagstyper";
 import { tonlagen } from "./data/tonlagen";
+import { syften } from "./data/syften";
 import { plattformar } from "./data/plattformar";
 import { defaultValues } from "./data/defaultValues";
 import { inlaggMallar } from "./data/inlagg/inlaggMallar";
 import { ideerPerForetag } from "./data/ideerPerForetag";
+import { pizzeriaSyften } from "./data/pizzeriaSyften";
+import { frisorSyften } from "./data/frisorSyften";
+import { gymSyften } from "./data/gymSyften";
 
 function App() {
   // ====================
@@ -30,6 +34,7 @@ function App() {
   const [plattform, setPlattform] = useState(defaultValues.plattform);
   const [kopierat, setKopierat] = useState(false);
   const [alternativ, setAlternativ] = useState([]);
+  const [syfte, setSyfte] = useState("🗣️ Engagemang");
 
   // ====================
   // FUNKTIONER
@@ -42,11 +47,40 @@ function App() {
 
     const nyttInlagg = inlaggMallar[ton][plattform](foretag, typ);
 
+    let slutligtInlagg = nyttInlagg;
+
+    if (typ === "Pizzeria") {
+      const syfteTexter = pizzeriaSyften[syfte];
+
+      if (syfteTexter) {
+        slutligtInlagg =
+          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
+      }
+    }
+
+    if (typ === "Frisör") {
+      const syfteTexter = frisorSyften[syfte];
+
+      if (syfteTexter) {
+        slutligtInlagg =
+          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
+      }
+    }
+
+    if (typ === "Gym") {
+      const syfteTexter = gymSyften[syfte];
+
+      if (syfteTexter) {
+        slutligtInlagg =
+          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
+      }
+    }
+
     const nyaHashtags = hashtagsData[typ] || "";
 
     setHashtags(nyaHashtags);
 
-    setText(nyttInlagg);
+    setText(slutligtInlagg);
 
     const alternativMallar = {
       Vänlig: vanligAlternativ(foretag, typ),
@@ -191,6 +225,12 @@ function App() {
         >
           {tonlagen.map((tonNamn) => (
             <option key={tonNamn}>{tonNamn}</option>
+          ))}
+        </select>
+
+        <select value={syfte} onChange={(e) => setSyfte(e.target.value)}>
+          {syften.map((syfteNamn) => (
+            <option key={syfteNamn}>{syfteNamn}</option>
           ))}
         </select>
 

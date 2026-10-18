@@ -1,13 +1,37 @@
 export const vanligaInlagg = {
   Facebook: (foretag, typ) => {
     if (typ === "Pizzeria") {
-      return `🍕 Nytt från ${foretag}
+      const mallar = [
+        `🍕 Nytt från ${foretag}
 
 Hos ${foretag} älskar vi att skapa riktigt goda smakupplevelser för våra kunder.
 
 Oavsett om du kommer för lunch, middag eller fredagsmys är du alltid varmt välkommen.
 
-Tack för att ni väljer lokalt! ❤️`;
+Tack för att ni väljer lokalt! ❤️`,
+
+        `🍕 Veckans favorit
+
+Hos ${foretag} finns alltid något gott att upptäcka.
+
+Vilken pizza är din favorit hos oss? 😋
+
+Berätta gärna i kommentarerna!`,
+
+        `❤️ Tack till våra kunder
+
+Vi vill passa på att tacka alla fantastiska kunder som besöker ${foretag}.
+
+Ert stöd betyder mer än ni tror och hjälper oss göra det vi älskar varje dag.`,
+
+        `👨‍🍳 Bakom kulisserna
+
+Hos ${foretag} arbetar vi varje dag för att skapa mat som vi själva är stolta över.
+
+Kvalitet, smak och service står alltid i fokus.`,
+      ];
+
+      return mallar[Math.floor(Math.random() * mallar.length)];
     }
 
     if (typ === "Frisör") {
