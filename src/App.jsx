@@ -17,10 +17,10 @@ import { plattformar } from "./data/plattformar";
 import { defaultValues } from "./data/defaultValues";
 import { inlaggMallar } from "./data/inlagg/inlaggMallar";
 import { ideerPerForetag } from "./data/ideerPerForetag";
-import { pizzeriaSyften } from "./data/pizzeriaSyften";
-import { frisorSyften } from "./data/frisorSyften";
-import { gymSyften } from "./data/gymSyften";
-import { syftenPerForetag } from "./data/syftenPerForetag";
+import { skapaVeckoText } from "./utils/skapaVeckoText";
+import { hamtaSyfteText } from "./utils/hamtaSyfteText";
+import { kopieraTillUrklipp } from "./utils/kopiering";
+import { skapaVeckoplanData } from "./utils/skapaVeckoplan";
 
 function App() {
   // ====================
@@ -58,42 +58,15 @@ function App() {
 
     const nyttInlagg = inlaggMallar[ton][plattform](foretag, typ);
 
-    let slutligtInlagg = nyttInlagg;
-
-    if (typ === "Pizzeria") {
-      // Hämta alla texter för valt syfte
-      const syfteTexter = pizzeriaSyften[syfte];
-
-      if (syfteTexter) {
-        // Slumpa fram en av texterna
-        slutligtInlagg =
-          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
-
-        // Om den slumpade posten är en funktion,
-        // kör den och skicka med företagsnamn och fokus
-        if (typeof slutligtInlagg === "function") {
-          slutligtInlagg = slutligtInlagg(foretag, fokus);
-        }
-      }
-    }
-
-    if (typ === "Frisör") {
-      const syfteTexter = frisorSyften[syfte];
-
-      if (syfteTexter) {
-        slutligtInlagg =
-          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
-      }
-    }
-
-    if (typ === "Gym") {
-      const syfteTexter = gymSyften[syfte];
-
-      if (syfteTexter) {
-        slutligtInlagg =
-          syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
-      }
-    }
+    // Hämtar en syftesanpassad text.
+    // Huvudinlägget används som reserv om specialtext saknas.
+    const slutligtInlagg = hamtaSyfteText({
+      typ: typ,
+      syfte: syfte,
+      foretag: foretag,
+      fokus: fokus,
+      reservtext: nyttInlagg,
+    });
 
     const nyaHashtags = hashtagsData[typ] || "";
 
@@ -108,18 +81,6 @@ function App() {
     };
 
     setAlternativ(alternativMallar[ton]);
-  };
-
-  // Kopierar inlägget till urklipp
-  // och visar bekräftelse i 3 sekunder
-  const kopieraText = () => {
-    navigator.clipboard.writeText(text);
-
-    setKopierat(true);
-
-    setTimeout(() => {
-      setKopierat(false);
-    }, 3000);
   };
 
   // Framtida funktion:
@@ -154,75 +115,19 @@ function App() {
     setFavorit(text);
   };
 
-  // Kopierar valfritt alternativ
+  // Kopierar huvudinlägget
+  const kopieraText = () => {
+    kopieraTillUrklipp(text, setKopierat);
+  };
+
+  // Kopierar ett alternativt inlägg
   const kopieraAlternativ = (text) => {
-    navigator.clipboard.writeText(text);
-
-    setKopierat(true);
-
-    setTimeout(() => {
-      setKopierat(false);
-    }, 3000);
+    kopieraTillUrklipp(text, setKopierat);
   };
 
-  // Skapar ett riktigt inlägg till veckoplanen.
-  // Företagstypen väljer rätt samling och syftet väljer rätt textlista.
-  const skapaVeckoText = (valtSyfte) => {
-    // Hämta alla syftestexter för vald företagstyp.
-    const foretagetsSyften = syftenPerForetag[typ];
-
-    // Om företagstypen ännu saknar egna syftestexter,
-    // använder vi en enkel reservtext.
-    if (!foretagetsSyften) {
-      return fokus
-        ? `Berätta om ${fokus} hos ${foretag}.`
-        : `Berätta något intressant om ${foretag}.`;
-    }
-
-    // Hämta listan med texter för veckodagens syfte.
-    const syfteTexter = foretagetsSyften[valtSyfte];
-
-    // Om syftet saknar texter använder vi också reservtexten.
-    if (!syfteTexter || syfteTexter.length === 0) {
-      return fokus
-        ? `Berätta om ${fokus} hos ${foretag}.`
-        : `Berätta något intressant om ${foretag}.`;
-    }
-
-    // Slumpa fram en text eller textfunktion från listan.
-    const slumpadText =
-      syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
-
-    // En funktionsmall kan använda företagsnamn och fokus.
-    if (typeof slumpadText === "function") {
-      return slumpadText(foretag, fokus);
-    }
-
-    // En vanlig textmall kan returneras direkt.
-    return slumpadText;
-  };
-
-  // Skapar en varierad veckoplan med tre olika syften.
-  // Syftena blandas så att veckoplanen kan variera mellan klicken.
+  // Skapar en ny veckoplan
   const skapaVeckoplan = () => {
-    const dagar = ["Måndag", "Onsdag", "Fredag"];
-
-    // Skapa en kopia av syfteslistan och blanda den.
-    const blandadeSyften = [...syften].sort(() => Math.random() - 0.5);
-
-    // Använd de tre första syftena i den blandade listan.
-    const valdaSyften = blandadeSyften.slice(0, 3);
-
-    // Koppla varje veckodag till ett syfte och ett riktigt inlägg.
-    const plan = dagar.map((dag, index) => {
-      const valtSyfte = valdaSyften[index];
-
-      return {
-        dag: dag,
-        syfte: valtSyfte,
-        text: skapaVeckoText(valtSyfte),
-      };
-    });
+    const plan = skapaVeckoplanData(syften, skapaVeckoText);
 
     setVeckoplan(plan);
   };
