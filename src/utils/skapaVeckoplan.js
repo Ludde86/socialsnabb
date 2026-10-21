@@ -11,11 +11,11 @@ export const skapaVeckoplanData = (skapaVeckoText, typ, foretag, fokus) => {
   const dagar = ["Måndag", "Onsdag", "Fredag"];
 
   // Slumpa fram en färdig veckostrategi.
-  const veckomix =
+  const valdStrategi =
     veckoplanMallar[Math.floor(Math.random() * veckoplanMallar.length)];
 
-  return dagar.map((dag, index) => {
-    const valtSyfte = veckomix[index];
+  const plan = dagar.map((dag, index) => {
+    const valtSyfte = valdStrategi.syften[index];
 
     return {
       dag,
@@ -23,4 +23,11 @@ export const skapaVeckoplanData = (skapaVeckoText, typ, foretag, fokus) => {
       text: skapaVeckoText(valtSyfte, typ, foretag, fokus),
     };
   });
+
+  // Returnera både strateginamn
+  // och den färdiga planen.
+  return {
+    strategi: valdStrategi.namn,
+    plan,
+  };
 };

@@ -42,6 +42,8 @@ function App() {
   const [favorit, setFavorit] = useState("");
   // Inlägg för kommande vecka
   const [veckoplan, setVeckoplan] = useState([]);
+  // Namnet på vald veckostrategi
+  const [veckostrategi, setVeckostrategi] = useState("");
   // Visar en bekräftelse när hela veckoplanen har kopierats.
   const [veckoplanKopierad, setVeckoplanKopierad] = useState(false);
 
@@ -128,9 +130,11 @@ function App() {
 
   // Skapar en ny veckoplan
   const skapaVeckoplan = () => {
-    const plan = skapaVeckoplanData(skapaVeckoText, typ, foretag, fokus);
+    const resultat = skapaVeckoplanData(skapaVeckoText, typ, foretag, fokus);
 
-    setVeckoplan(plan);
+    setVeckoplan(resultat.plan);
+
+    setVeckostrategi(resultat.strategi);
   };
 
   // Sätter ihop veckoplanens alla dagar till en enda text
@@ -319,6 +323,7 @@ function App() {
         veckoplan={veckoplan}
         kopieraVeckoplan={kopieraVeckoplan}
         veckoplanKopierad={veckoplanKopierad}
+        veckostrategi={veckostrategi}
       />
 
       <Footer />

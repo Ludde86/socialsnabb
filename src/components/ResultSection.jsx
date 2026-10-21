@@ -12,6 +12,7 @@ function ResultSection({
   veckoplan,
   kopieraVeckoplan,
   veckoplanKopierad,
+  veckostrategi,
 }) {
   return (
     <>
@@ -252,6 +253,17 @@ function ResultSection({
             borderRadius: "12px",
           }}
         >
+          {veckostrategi && (
+            <p
+              style={{
+                color: "#64748b",
+                marginBottom: "15px",
+                fontWeight: "600",
+              }}
+            >
+              🎯 Strategi: {veckostrategi}
+            </p>
+          )}
           <strong>📅 Veckoplan</strong>
 
           {veckoplan.map((post, index) => (

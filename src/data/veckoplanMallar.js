@@ -1,10 +1,22 @@
-// Färdiga strategier för olika veckor.
+// Färdiga innehållsstrategier.
 // Veckoplanen väljer en av dessa slumpmässigt.
 
 export const veckoplanMallar = [
-  ["🗣️ Engagemang", "👨‍🍳 Bakom kulisserna", "🎁 Erbjudande & Tävling"],
+  {
+    namn: "Engagera → Bygg förtroende → Sälj",
 
-  ["👥 Människorna", "📢 Nyhet & Meny", "🎁 Erbjudande & Tävling"],
+    syften: ["🗣️ Engagemang", "👨‍🍳 Bakom kulisserna", "🎁 Erbjudande & Tävling"],
+  },
 
-  ["🗣️ Engagemang", "👥 Människorna", "📢 Nyhet & Meny"],
+  {
+    namn: "Personligt → Informera → Sälj",
+
+    syften: ["👥 Människorna", "📢 Nyhet & Meny", "🎁 Erbjudande & Tävling"],
+  },
+
+  {
+    namn: "Engagera → Relation → Informera",
+
+    syften: ["🗣️ Engagemang", "👥 Människorna", "📢 Nyhet & Meny"],
+  },
 ];
