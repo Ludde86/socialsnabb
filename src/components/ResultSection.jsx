@@ -10,6 +10,8 @@ function ResultSection({
   kopieraAlternativ,
   syfte,
   veckoplan,
+  kopieraVeckoplan,
+  veckoplanKopierad,
 }) {
   return (
     <>
@@ -282,6 +284,24 @@ function ResultSection({
               </button>
             </div>
           ))}
+          <button
+            onClick={kopieraVeckoplan}
+            style={{
+              width: "100%",
+              marginTop: "16px",
+              padding: "12px",
+              backgroundColor: "#16a34a",
+              color: "white",
+              border: "none",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}
+          >
+            {veckoplanKopierad
+              ? "✅ Hela veckoplanen är kopierad!"
+              : "📋 Kopiera hela veckoplanen"}
+          </button>
         </div>
       )}
     </>

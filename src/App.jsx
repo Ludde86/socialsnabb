@@ -41,6 +41,8 @@ function App() {
   const [favorit, setFavorit] = useState("");
   // Inlägg för kommande vecka
   const [veckoplan, setVeckoplan] = useState([]);
+  // Visar en bekräftelse när hela veckoplanen har kopierats.
+  const [veckoplanKopierad, setVeckoplanKopierad] = useState(false);
 
   // ====================
   // FUNKTIONER
@@ -223,6 +225,22 @@ function App() {
     });
 
     setVeckoplan(plan);
+  };
+
+  // Sätter ihop veckoplanens alla dagar till en enda text
+  // och kopierar sedan hela planen till urklipp.
+  const kopieraVeckoplan = () => {
+    const veckoplanText = veckoplan
+      .map((post) => `${post.dag}\n${post.syfte}\n${post.text}`)
+      .join("\n\n");
+
+    navigator.clipboard.writeText(veckoplanText);
+
+    setVeckoplanKopierad(true);
+
+    setTimeout(() => {
+      setVeckoplanKopierad(false);
+    }, 3000);
   };
 
   // ====================
@@ -510,6 +528,8 @@ function App() {
         kopieraAlternativ={kopieraAlternativ}
         syfte={syfte}
         veckoplan={veckoplan}
+        kopieraVeckoplan={kopieraVeckoplan}
+        veckoplanKopierad={veckoplanKopierad}
       />
 
       <Footer />
