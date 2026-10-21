@@ -20,6 +20,7 @@ import { ideerPerForetag } from "./data/ideerPerForetag";
 import { pizzeriaSyften } from "./data/pizzeriaSyften";
 import { frisorSyften } from "./data/frisorSyften";
 import { gymSyften } from "./data/gymSyften";
+import { syftenPerForetag } from "./data/syftenPerForetag";
 
 function App() {
   // ====================
@@ -162,36 +163,64 @@ function App() {
     }, 3000);
   };
 
-  // Skapar en enkel veckoplan.
-  // Just nu använder vi fasta texter,
-  // men målet är att återanvända samma
-  // logik som huvudinlägget.
-  // Veckoplanen ska använda samma innehållslogik
-  // som resten av SocialSnabb.
+  // Skapar ett riktigt inlägg till veckoplanen.
+  // Företagstypen väljer rätt samling och syftet väljer rätt textlista.
+  const skapaVeckoText = (valtSyfte) => {
+    // Hämta alla syftestexter för vald företagstyp.
+    const foretagetsSyften = syftenPerForetag[typ];
+
+    // Om företagstypen ännu saknar egna syftestexter,
+    // använder vi en enkel reservtext.
+    if (!foretagetsSyften) {
+      return fokus
+        ? `Berätta om ${fokus} hos ${foretag}.`
+        : `Berätta något intressant om ${foretag}.`;
+    }
+
+    // Hämta listan med texter för veckodagens syfte.
+    const syfteTexter = foretagetsSyften[valtSyfte];
+
+    // Om syftet saknar texter använder vi också reservtexten.
+    if (!syfteTexter || syfteTexter.length === 0) {
+      return fokus
+        ? `Berätta om ${fokus} hos ${foretag}.`
+        : `Berätta något intressant om ${foretag}.`;
+    }
+
+    // Slumpa fram en text eller textfunktion från listan.
+    const slumpadText =
+      syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
+
+    // En funktionsmall kan använda företagsnamn och fokus.
+    if (typeof slumpadText === "function") {
+      return slumpadText(foretag, fokus);
+    }
+
+    // En vanlig textmall kan returneras direkt.
+    return slumpadText;
+  };
+
+  // Skapar en varierad veckoplan med tre olika syften.
+  // Syftena blandas så att veckoplanen kan variera mellan klicken.
   const skapaVeckoplan = () => {
-    // Standardupplägg för en veckas innehåll.
-    // Senare ska dessa texter genereras automatiskt
-    // beroende på företagstyp, syfte och fokus.
-    const plan = [
-      {
-        dag: "Måndag",
-        syfte: "🗣️ Engagemang",
+    const dagar = ["Måndag", "Onsdag", "Fredag"];
 
-        text: `${foretag}: Vilken av våra produkter eller tjänster gillar du mest? 😋`,
-      },
+    // Skapa en kopia av syfteslistan och blanda den.
+    const blandadeSyften = [...syften].sort(() => Math.random() - 0.5);
 
-      {
-        dag: "Onsdag",
-        syfte: "👨‍🍳 Bakom kulisserna",
-        text: "Visa hur arbetet ser ut bakom kulisserna och berätta om vardagen.",
-      },
+    // Använd de tre första syftena i den blandade listan.
+    const valdaSyften = blandadeSyften.slice(0, 3);
 
-      {
-        dag: "Fredag",
-        syfte: "🎁 Erbjudande & Tävling",
-        text: "Presentera ett erbjudande som lockar kunder inför helgen.",
-      },
-    ];
+    // Koppla varje veckodag till ett syfte och ett riktigt inlägg.
+    const plan = dagar.map((dag, index) => {
+      const valtSyfte = valdaSyften[index];
+
+      return {
+        dag: dag,
+        syfte: valtSyfte,
+        text: skapaVeckoText(valtSyfte),
+      };
+    });
 
     setVeckoplan(plan);
   };

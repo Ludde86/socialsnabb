@@ -1,7 +1,9 @@
 export const pizzeriaSyften = {
   "🗣️ Engagemang": [
     (foretag, fokus) =>
-      `🍕 ${fokus} verkar vara något många pratar om just nu hos ${foretag}.
+      `🍕 ${
+        fokus || "Våra pizzor"
+      } verkar vara något många pratar om just nu hos ${foretag}.
 
 Vilken är din favoritvariant? Skriv gärna i kommentarerna!`,
 
@@ -26,11 +28,13 @@ Vilken är din favoritvariant? Skriv gärna i kommentarerna!`,
 
   "🎁 Erbjudande & Tävling": [
     (foretag, fokus) =>
-      `🎁 Den här veckan vill vi lyfta fram ${fokus} hos ${foretag}.
+      `🎁 Den här veckan vill vi lyfta fram ${
+        fokus || "våra populäraste pizzor"
+      } hos ${foretag}.
 
 Kom förbi och prova något riktigt gott!`,
     (foretag, fokus) =>
-      `🍕 Har du testat ${fokus} hos ${foretag}?
+      `🍕 Har du testat ${fokus || "våra populäraste pizzor"} hos ${foretag}?
 
 Nu kan det vara ett perfekt tillfälle!`,
     "🎁 Beställ två familjepizzor och gör fredagskvällen extra god.",
@@ -50,7 +54,7 @@ Nu kan det vara ett perfekt tillfälle!`,
     (foretag, fokus) =>
       `📢 Nyhet från ${foretag}!
 
-Nu vill vi lyfta fram ${fokus}.`,
+Nu vill vi lyfta fram ${fokus || "vårt senaste utbud"}.`,
 
     "🍕 Vi jobbar ständigt på att utveckla vårt utbud för våra gäster.",
   ],
