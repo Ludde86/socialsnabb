@@ -1,18 +1,21 @@
 // Skapar en veckoplan med en balanserad mix av innehåll.
-//
-// Målet är att:
-// 1. Skapa engagemang
-// 2. Bygga förtroende
-// 3. Avsluta veckan med försäljning
 
+import { veckoplanPerForetag } from "../data/veckoplanPerForetag";
 import { veckoplanMallar } from "../data/veckoplanMallar";
 
 export const skapaVeckoplanData = (skapaVeckoText, typ, foretag, fokus) => {
   const dagar = ["Måndag", "Onsdag", "Fredag"];
 
-  // Slumpa fram en färdig veckostrategi.
+  // Hämta strategier för vald företagstyp.
+  const foretagetsStrategier = veckoplanPerForetag[typ];
+
+  // Om företagstypen saknar egna strategier
+  // används de generella veckomallarna.
+  const strategier = foretagetsStrategier || veckoplanMallar;
+
+  // Slumpa fram en strategi.
   const valdStrategi =
-    veckoplanMallar[Math.floor(Math.random() * veckoplanMallar.length)];
+    strategier[Math.floor(Math.random() * strategier.length)];
 
   const plan = dagar.map((dag, index) => {
     const valtSyfte = valdStrategi.syften[index];
@@ -24,8 +27,6 @@ export const skapaVeckoplanData = (skapaVeckoText, typ, foretag, fokus) => {
     };
   });
 
-  // Returnera både strateginamn
-  // och den färdiga planen.
   return {
     strategi: valdStrategi.namn,
     plan,
