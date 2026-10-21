@@ -1,23 +1,26 @@
-// Skapar en varierad veckoplan med tre olika syften.
-// Syftena blandas så att varje plan blir lite annorlunda.
+// Skapar en veckoplan med en balanserad mix av innehåll.
+//
+// Målet är att:
+// 1. Skapa engagemang
+// 2. Bygga förtroende
+// 3. Avsluta veckan med försäljning
 
-export const skapaVeckoplanData = (syften, skapaVeckoText) => {
+import { veckoplanMallar } from "../data/veckoplanMallar";
+
+export const skapaVeckoplanData = (skapaVeckoText, typ, foretag, fokus) => {
   const dagar = ["Måndag", "Onsdag", "Fredag"];
 
-  // Skapa en kopia och blanda ordningen.
-  const blandadeSyften = [...syften].sort(() => Math.random() - 0.5);
+  // Slumpa fram en färdig veckostrategi.
+  const veckomix =
+    veckoplanMallar[Math.floor(Math.random() * veckoplanMallar.length)];
 
-  // Välj tre syften.
-  const valdaSyften = blandadeSyften.slice(0, 3);
-
-  // Skapa veckoplanen.
   return dagar.map((dag, index) => {
-    const valtSyfte = valdaSyften[index];
+    const valtSyfte = veckomix[index];
 
     return {
       dag,
       syfte: valtSyfte,
-      text: skapaVeckoText(valtSyfte),
+      text: skapaVeckoText(valtSyfte, typ, foretag, fokus),
     };
   });
 };
