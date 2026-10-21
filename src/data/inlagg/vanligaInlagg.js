@@ -1,6 +1,14 @@
+// Alternativa vinklar på samma budskap.
+// Dessa används som kompletterande förslag
+// till huvudinlägget.
+
 export const vanligaInlagg = {
+  // Facebook-inlägg
+  // Här ligger de mest utvecklade och detaljerade mallarna.
   Facebook: (foretag, typ) => {
+    // Specialmallar för pizzerior
     if (typ === "Pizzeria") {
+      // Slumpa mellan flera olika pizzeria-inlägg
       const mallar = [
         `🍕 Nytt från ${foretag}
 
@@ -34,6 +42,7 @@ Kvalitet, smak och service står alltid i fokus.`,
       return mallar[Math.floor(Math.random() * mallar.length)];
     }
 
+    // Specialmall för frisörer
     if (typ === "Frisör") {
       return `✂️ Hälsning från ${foretag}
 
@@ -44,6 +53,7 @@ Vi älskar att hjälpa våra kunder att känna sig trygga, fräscha och nöjda e
 Tack för att ni väljer oss och varmt välkommen tillbaka! 💇`;
     }
 
+    // Specialmall för gym
     if (typ === "Gym") {
       return `💪 Hälsning från ${foretag}
 
@@ -54,6 +64,7 @@ Hos ${foretag} vill vi inspirera till rörelse, hälsa och träningsglädje för
 Vi ser fram emot att träna tillsammans med dig!`;
     }
 
+    // Specialmall för naprapater
     if (typ === "Naprapat") {
       return `🩺 Hälsning från ${foretag}
 
@@ -64,6 +75,7 @@ Oavsett om det handlar om ryggbesvär, nackproblem eller förebyggande behandlin
 Tack för förtroendet och varmt välkommen!`;
     }
 
+    // Specialmall för elektriker
     if (typ === "Elektriker") {
       return `⚡ Hälsning från ${foretag}
 
@@ -74,10 +86,8 @@ Vi värdesätter kvalitet, trygghet och ett arbete som håller över tid.
 Tack för förtroendet och varmt välkommen att kontakta oss!`;
     }
 
-    {
-      /* Standardtext */
-    }
-
+    // Standardmall för företagstyper
+    // som ännu inte har egna specialtexter.
     return `🌟 Nytt från ${foretag}
 
 Hos ${foretag} brinner vi för att ge våra kunder bästa möjliga upplevelse.
@@ -89,6 +99,8 @@ Har du inte besökt oss ännu? Vi hälsar dig varmt välkommen!
 💬 Har du en fråga? Skriv gärna en kommentar eller kontakta oss direkt.`;
   },
 
+  // Instagram-inlägg
+  // Kortare och mer sociala texter.
   Instagram: (foretag, typ) => {
     if (typ === "Pizzeria") {
       return `🍕 Dags för något gott?

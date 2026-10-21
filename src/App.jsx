@@ -35,10 +35,18 @@ function App() {
   const [kopierat, setKopierat] = useState(false);
   const [alternativ, setAlternativ] = useState([]);
   const [syfte, setSyfte] = useState("🗣️ Engagemang");
+  const [fokus, setFokus] = useState("");
+  // Sparar användarens favoritinlägg
+  const [favorit, setFavorit] = useState("");
+  // Inlägg för kommande vecka
+  const [veckoplan, setVeckoplan] = useState([]);
 
   // ====================
   // FUNKTIONER
   // ====================
+
+  // Skapar ett nytt inlägg utifrån
+  // företag, tonläge, syfte och fokus.
   const skapaInlagg = () => {
     if (!foretag.trim()) {
       alert("Skriv företagsnamn först.");
@@ -50,11 +58,19 @@ function App() {
     let slutligtInlagg = nyttInlagg;
 
     if (typ === "Pizzeria") {
+      // Hämta alla texter för valt syfte
       const syfteTexter = pizzeriaSyften[syfte];
 
       if (syfteTexter) {
+        // Slumpa fram en av texterna
         slutligtInlagg =
           syfteTexter[Math.floor(Math.random() * syfteTexter.length)];
+
+        // Om den slumpade posten är en funktion,
+        // kör den och skicka med företagsnamn och fokus
+        if (typeof slutligtInlagg === "function") {
+          slutligtInlagg = slutligtInlagg(foretag, fokus);
+        }
       }
     }
 
@@ -91,6 +107,8 @@ function App() {
     setAlternativ(alternativMallar[ton]);
   };
 
+  // Kopierar inlägget till urklipp
+  // och visar bekräftelse i 3 sekunder
   const kopieraText = () => {
     navigator.clipboard.writeText(text);
 
@@ -101,12 +119,81 @@ function App() {
     }, 3000);
   };
 
+  // Framtida funktion:
+  // Generera flera inlägg samtidigt
+  // för en hel vecka.
   const skapaIde = () => {
     const ideLista = ideerPerForetag[typ] || ideer;
 
     const slumpadIde = ideLista[Math.floor(Math.random() * ideLista.length)];
 
     setIde(slumpadIde);
+  };
+
+  // Återställer formuläret till startläget
+  const rensaFormular = () => {
+    setForetag(defaultValues.foretag);
+    setTyp(defaultValues.typ);
+    setTon(defaultValues.ton);
+    setPlattform(defaultValues.plattform);
+
+    setSyfte("🗣️ Engagemang");
+    setFokus("");
+
+    setText("");
+    setHashtags("");
+    setAlternativ([]);
+    setIde("");
+  };
+
+  // Sparar aktuellt inlägg som favorit
+  const sparaFavorit = () => {
+    setFavorit(text);
+  };
+
+  // Kopierar valfritt alternativ
+  const kopieraAlternativ = (text) => {
+    navigator.clipboard.writeText(text);
+
+    setKopierat(true);
+
+    setTimeout(() => {
+      setKopierat(false);
+    }, 3000);
+  };
+
+  // Skapar en enkel veckoplan.
+  // Just nu använder vi fasta texter,
+  // men målet är att återanvända samma
+  // logik som huvudinlägget.
+  // Veckoplanen ska använda samma innehållslogik
+  // som resten av SocialSnabb.
+  const skapaVeckoplan = () => {
+    // Standardupplägg för en veckas innehåll.
+    // Senare ska dessa texter genereras automatiskt
+    // beroende på företagstyp, syfte och fokus.
+    const plan = [
+      {
+        dag: "Måndag",
+        syfte: "🗣️ Engagemang",
+
+        text: `${foretag}: Vilken av våra produkter eller tjänster gillar du mest? 😋`,
+      },
+
+      {
+        dag: "Onsdag",
+        syfte: "👨‍🍳 Bakom kulisserna",
+        text: "Visa hur arbetet ser ut bakom kulisserna och berätta om vardagen.",
+      },
+
+      {
+        dag: "Fredag",
+        syfte: "🎁 Erbjudande & Tävling",
+        text: "Presentera ett erbjudande som lockar kunder inför helgen.",
+      },
+    ];
+
+    setVeckoplan(plan);
   };
 
   // ====================
@@ -182,6 +269,32 @@ function App() {
           }}
         />
 
+        <label
+          style={{
+            display: "block",
+            marginTop: "16px",
+            marginBottom: "8px",
+            fontWeight: "600",
+          }}
+        >
+          🎯 Vad vill du lyfta fram i inlägget?
+        </label>
+
+        <input
+          type="text"
+          placeholder="Exempel: Vesuvio, Luncherbjudande, Fredagspizza eller Ny meny"
+          value={fokus}
+          onChange={(e) => setFokus(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "12px",
+            fontSize: "16px",
+            boxSizing: "border-box",
+            borderRadius: "8px",
+            border: "1px solid #dbe2ea",
+          }}
+        />
+
         <br />
         <br />
 
@@ -228,6 +341,30 @@ function App() {
           ))}
         </select>
 
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            marginTop: "20px",
+            fontWeight: "700",
+            color: "#1e293b",
+            fontSize: "16px",
+          }}
+        >
+          🎯 Vad vill du uppnå med inlägget?
+        </label>
+
+        <p
+          style={{
+            marginTop: "0",
+            marginBottom: "10px",
+            fontSize: "14px",
+            color: "#64748b",
+          }}
+        >
+          Välj målet med inlägget så skapar SocialSnabb ett bättre förslag.
+        </p>
+
         <select value={syfte} onChange={(e) => setSyfte(e.target.value)}>
           {syften.map((syfteNamn) => (
             <option key={syfteNamn}>{syfteNamn}</option>
@@ -268,6 +405,36 @@ function App() {
           🚀 Skapa mitt inlägg
         </button>
 
+        <button
+          onClick={skapaInlagg}
+          style={{
+            width: "100%",
+            backgroundColor: "#ffffff",
+            border: "1px solid #dbe2ea",
+            borderRadius: "8px",
+            marginTop: "10px",
+            padding: "12px 20px",
+            cursor: "pointer",
+          }}
+        >
+          🎲 Slumpa nytt inlägg
+        </button>
+
+        <button
+          onClick={skapaVeckoplan}
+          style={{
+            width: "100%",
+            backgroundColor: "#ffffff",
+            border: "1px solid #dbe2ea",
+            borderRadius: "8px",
+            marginTop: "10px",
+            padding: "12px 20px",
+            cursor: "pointer",
+          }}
+        >
+          📅 Skapa veckoplan
+        </button>
+
         <br />
         <br />
 
@@ -285,6 +452,21 @@ function App() {
         >
           Ge mig en Idé
         </button>
+
+        <button
+          onClick={rensaFormular}
+          style={{
+            width: "100%",
+            backgroundColor: "#ffffff",
+            border: "1px solid #dbe2ea",
+            borderRadius: "8px",
+            marginTop: "10px",
+            padding: "12px 20px",
+            cursor: "pointer",
+          }}
+        >
+          🔄 Börja om
+        </button>
       </div>
       {/* Resultat */}
       <ResultSection
@@ -293,8 +475,14 @@ function App() {
         alternativ={alternativ}
         ide={ide}
         kopieraText={kopieraText}
+        kopierat={kopierat}
+        favorit={favorit}
+        sparaFavorit={sparaFavorit}
+        kopieraAlternativ={kopieraAlternativ}
+        syfte={syfte}
+        veckoplan={veckoplan}
       />
-      ;{kopierat && <p>✅ Inlägget har kopierats!</p>}
+
       <Footer />
     </div>
   );
