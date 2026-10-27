@@ -109,6 +109,14 @@
   transition: all 0.2s ease;
 }
 
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
 .button-primary {
   background: #2563eb;
   color: white;

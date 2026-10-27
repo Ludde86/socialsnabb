@@ -23,6 +23,10 @@ function ResultSection({
   sparaVeckoplan,
 }) {
   const [visaAlternativ, setVisaAlternativ] = useState(false);
+  const [visaHashtags, setVisaHashtags] = useState(false);
+  const [visaIde, setVisaIde] = useState(false);
+  const [visaVeckoplan, setVisaVeckoplan] = useState(false);
+
   return (
     <>
       <h3 className="result-title">✨ Ditt färdiga inlägg</h3>
@@ -68,8 +72,19 @@ function ResultSection({
 
         {hashtags && (
           <div className="info-box info-box-blue">
-            <strong>🏷️ Förslag på hashtags</strong>
-            <p>{hashtags}</p>
+            <button
+              onClick={() => setVisaHashtags(!visaHashtags)}
+              className="copy-button"
+            >
+              {visaHashtags ? "▼ Dölj hashtags" : "▶ Visa hashtags"}
+            </button>
+
+            {visaHashtags && (
+              <>
+                <strong>🏷️ Förslag på hashtags</strong>
+                <p>{hashtags}</p>
+              </>
+            )}
           </div>
         )}
 
@@ -129,17 +144,20 @@ function ResultSection({
 
         {ide && (
           <div className="info-box info-box-yellow">
-            <strong>💡 Inläggsidé</strong>
-
-            <p
-              style={{
-                marginTop: "10px",
-                marginBottom: 0,
-                lineHeight: "1.7",
-              }}
+            <button
+              onClick={() => setVisaIde(!visaIde)}
+              className="copy-button"
             >
-              {ide}
-            </p>
+              {visaIde ? "▼ Dölj idé" : "▶ Visa inläggsidé"}
+            </button>
+
+            {visaIde && (
+              <>
+                <strong>💡 Inläggsidé</strong>
+
+                <p>{ide}</p>
+              </>
+            )}
           </div>
         )}
 
@@ -171,100 +189,114 @@ function ResultSection({
       )}
 
       {veckoplan.length > 0 && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "20px",
-            backgroundColor: "#f8fafc",
-            borderLeft: "5px solid #22c55e",
-            borderRadius: "12px",
-          }}
-        >
-          {veckostrategi && (
-            <p
+        <>
+          <button
+            onClick={() => setVisaVeckoplan(!visaVeckoplan)}
+            className="copy-button"
+          >
+            {visaVeckoplan ? "▼ Dölj veckoplan" : "▶ Visa veckoplan"}
+          </button>
+
+          {visaVeckoplan && (
+            <div
               style={{
-                color: "#64748b",
-                marginBottom: "15px",
-                fontWeight: "600",
+                marginTop: "20px",
+                padding: "20px",
+                backgroundColor: "#f8fafc",
+                borderLeft: "5px solid #22c55e",
+                borderRadius: "12px",
               }}
             >
-              🎯 Strategi: {veckostrategi}
-            </p>
-          )}
+              {veckostrategi && (
+                <p
+                  style={{
+                    color: "#64748b",
+                    marginBottom: "15px",
+                    fontWeight: "600",
+                  }}
+                >
+                  🎯 Strategi: {veckostrategi}
+                </p>
+              )}
 
-          <p
-            style={{
-              marginBottom: "5px",
-              color: "#64748b",
-              fontWeight: "600",
-            }}
-          >
-            📅 Vecka {veckonummer}
-          </p>
-
-          <h3
-            style={{
-              marginBottom: "5px",
-              color: "#1e293b",
-            }}
-          >
-            🏢 {foretag}
-          </h3>
-          <strong>📅 Veckoplan</strong>
-
-          {veckoplan.map((post, index) => (
-            <div key={index} className="week-card">
-              <h4 className="day-title">📅 {post.dag}</h4>
-              <p className="time-label">🕘 Rekommenderad tid: {post.tid}</p>
               <p
-                className="syfte-title"
                 style={{
-                  color: syfteFarger[post.syfte] || "#1e293b",
+                  marginBottom: "5px",
+                  color: "#64748b",
+                  fontWeight: "600",
                 }}
               >
-                {post.syfte}
+                📅 Vecka {veckonummer}
               </p>
-              <div className="card card-gray">
-                <strong className="card-title">📝 Inlägg</strong>
 
-                <p
-                  style={{
-                    lineHeight: "1.7",
-                    marginBottom: 0,
-                  }}
-                >
-                  {post.text}
-                </p>
-              </div>
-              <div className="card card-blue">
-                <strong className="card-title">📸 Bildidé</strong>
+              <h3
+                style={{
+                  marginBottom: "5px",
+                  color: "#1e293b",
+                }}
+              >
+                🏢 {foretag}
+              </h3>
 
-                <p
-                  style={{
-                    marginTop: "6px",
-                    marginBottom: 0,
-                  }}
-                >
-                  {post.bildIde}
-                </p>
-              </div>
+              <strong>📅 Veckoplan</strong>
 
-              <div className="card card-yellow">
-                <strong className="card-title">🎯 Mål</strong>
+              {veckoplan.map((post, index) => (
+                <div key={index} className="week-card">
+                  <h4 className="day-title">📅 {post.dag}</h4>
 
-                <p
-                  style={{
-                    marginTop: "6px",
-                    marginBottom: 0,
-                  }}
-                >
-                  {post.mal}
-                </p>
-              </div>
+                  <p className="time-label">🕘 Rekommenderad tid: {post.tid}</p>
 
-              <button
-                onClick={() =>
-                  kopieraAlternativ(`
+                  <p
+                    className="syfte-title"
+                    style={{
+                      color: syfteFarger[post.syfte] || "#1e293b",
+                    }}
+                  >
+                    {post.syfte}
+                  </p>
+
+                  <div className="card card-gray">
+                    <strong className="card-title">📝 Inlägg</strong>
+
+                    <p
+                      style={{
+                        lineHeight: "1.7",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {post.text}
+                    </p>
+                  </div>
+
+                  <div className="card card-blue">
+                    <strong className="card-title">📸 Bildidé</strong>
+
+                    <p
+                      style={{
+                        marginTop: "6px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {post.bildIde}
+                    </p>
+                  </div>
+
+                  <div className="card card-yellow">
+                    <strong className="card-title">🎯 Mål</strong>
+
+                    <p
+                      style={{
+                        marginTop: "6px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {post.mal}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      kopieraAlternativ(`
 ${post.dag.toUpperCase()}
 
 🕘 ${post.tid}
@@ -280,45 +312,42 @@ ${post.bildIde}
 🎯 Mål:
 ${post.mal}
 `)
-                }
-                className="copy-button"
+                    }
+                    className="copy-button"
+                  >
+                    📋 Kopiera detta inlägg
+                  </button>
+                </div>
+              ))}
+
+              <button
+                onClick={kopieraVeckoplan}
+                style={{
+                  width: "100%",
+                  marginTop: "16px",
+                  padding: "12px",
+                  backgroundColor: "#16a34a",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                }}
               >
-                📋 Kopiera detta inlägg
+                {veckoplanKopierad
+                  ? "✅ Hela veckoplanen är kopierad!"
+                  : "📋 Kopiera hela veckoplanen"}
+              </button>
+
+              <button
+                onClick={sparaVeckoplan}
+                className="button button-success"
+              >
+                ⭐ Spara veckoplan
               </button>
             </div>
-          ))}
-          <button
-            onClick={kopieraVeckoplan}
-            style={{
-              width: "100%",
-              marginTop: "16px",
-              padding: "12px",
-              backgroundColor: "#16a34a",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer",
-              fontWeight: "600",
-            }}
-          >
-            {veckoplanKopierad
-              ? "✅ Hela veckoplanen är kopierad!"
-              : "📋 Kopiera hela veckoplanen"}
-          </button>
-          <button
-            onClick={sparaVeckoplan}
-            style={{
-              width: "100%",
-              marginTop: "10px",
-              padding: "12px",
-              borderRadius: "10px",
-              border: "1px solid #dbe2ea",
-              cursor: "pointer",
-            }}
-          >
-            ⭐ Spara veckoplan
-          </button>
-        </div>
+          )}
+        </>
       )}
     </>
   );

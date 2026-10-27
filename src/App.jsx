@@ -22,6 +22,7 @@ import { skapaVeckoText } from "./utils/skapaVeckoText";
 import { hamtaSyfteText } from "./utils/hamtaSyfteText";
 import { kopieraTillUrklipp } from "./utils/kopiering";
 import { skapaVeckoplanData } from "./utils/skapaVeckoplan";
+import { hamtaVeckonummer } from "./utils/hamtaVeckonummer";
 
 function App() {
   // ====================
@@ -182,15 +183,6 @@ ${post.mal}
   };
 
   // Hämtar aktuellt veckonummer.
-  const hamtaVeckonummer = () => {
-    const idag = new Date();
-
-    const startAr = new Date(idag.getFullYear(), 0, 1);
-
-    const dagar = Math.floor((idag - startAr) / (24 * 60 * 60 * 1000));
-
-    return Math.ceil((dagar + 1) / 7);
-  };
 
   const veckonummer = hamtaVeckonummer();
 
@@ -206,29 +198,13 @@ ${post.mal}
   // RENDER
   // ====================
   return (
-    <div
-      style={{
-        maxWidth: "900px",
-        margin: "40px auto",
-        padding: "30px",
-        fontFamily: "Arial",
-        backgroundColor: "#f8fafc",
-        borderRadius: "12px",
-        boxShadow: "0 0 15px rgba(0,0,0,0.1)",
-      }}
-    >
+    <div className="app-container">
       <Header />
       {/* Snabbtest */}
       <QuickTest />
       {/* Företagsuppgifter */}
 
-      <div
-        style={{
-          backgroundColor: "white",
-          marginTop: "20px",
-          textAlign: "left",
-        }}
-      >
+      <div className="content-wrapper">
         <InputSection
           foretag={foretag}
           setForetag={setForetag}
@@ -248,92 +224,35 @@ ${post.mal}
           plattformar={plattformar}
         />
 
-        <br />
-        <br />
+        <div className="action-panel">
+          <div className="action-buttons">
+            <button onClick={skapaInlagg} className="button button-primary">
+              🚀 Skapa mitt inlägg
+            </button>
 
-        <div style={{ marginTop: "24px" }} />
+            <button onClick={skapaInlagg} className="button button-secondary">
+              🎲 Slumpa nytt inlägg
+            </button>
 
-        <br />
-        <br />
+            <button
+              onClick={skapaVeckoplan}
+              className="button button-secondary"
+            >
+              📅 Skapa veckoplan
+            </button>
 
-        <button
-          onClick={skapaInlagg}
-          style={{
-            width: "100%",
-            color: "white",
-            backgroundColor: "#2563eb",
-            border: "none",
-            padding: "12px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            marginLeft: "10px",
-          }}
-        >
-          🚀 Skapa mitt inlägg
-        </button>
+            <br />
+            <br />
 
-        <button
-          onClick={skapaInlagg}
-          style={{
-            width: "100%",
-            backgroundColor: "#ffffff",
-            border: "1px solid #dbe2ea",
-            borderRadius: "8px",
-            marginTop: "10px",
-            padding: "12px 20px",
-            cursor: "pointer",
-          }}
-        >
-          🎲 Slumpa nytt inlägg
-        </button>
+            <button onClick={skapaIde} className="button button-secondary">
+              Ge mig en Idé
+            </button>
 
-        <button
-          onClick={skapaVeckoplan}
-          style={{
-            width: "100%",
-            backgroundColor: "#ffffff",
-            border: "1px solid #dbe2ea",
-            borderRadius: "8px",
-            marginTop: "10px",
-            padding: "12px 20px",
-            cursor: "pointer",
-          }}
-        >
-          📅 Skapa veckoplan
-        </button>
-
-        <br />
-        <br />
-
-        <button
-          onClick={skapaIde}
-          style={{
-            width: "100%",
-            backgroundColor: "#f8fafc",
-            border: "1px solid #dbe2ea",
-            borderRadius: "8px",
-            marginLeft: "10px",
-            padding: "12px 20px",
-            cursor: "pointer",
-          }}
-        >
-          Ge mig en Idé
-        </button>
-
-        <button
-          onClick={rensaFormular}
-          style={{
-            width: "100%",
-            backgroundColor: "#ffffff",
-            border: "1px solid #dbe2ea",
-            borderRadius: "8px",
-            marginTop: "10px",
-            padding: "12px 20px",
-            cursor: "pointer",
-          }}
-        >
-          🔄 Börja om
-        </button>
+            <button onClick={rensaFormular} className="button button-secondary">
+              🔄 Börja om
+            </button>
+          </div>
+        </div>
       </div>
       {/* Resultat */}
       <ResultSection
