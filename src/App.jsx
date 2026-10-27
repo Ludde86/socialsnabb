@@ -46,6 +46,8 @@ function App() {
   const [veckostrategi, setVeckostrategi] = useState("");
   // Visar en bekräftelse när hela veckoplanen har kopierats.
   const [veckoplanKopierad, setVeckoplanKopierad] = useState(false);
+  // Sparad veckoplan
+  const [sparadVeckoplan, setSparadVeckoplan] = useState(null);
 
   // ====================
   // FUNKTIONER
@@ -140,9 +142,35 @@ function App() {
   // Sätter ihop veckoplanens alla dagar till en enda text
   // och kopierar sedan hela planen till urklipp.
   const kopieraVeckoplan = () => {
-    const veckoplanText = veckoplan
-      .map((post) => `${post.dag}\n${post.syfte}\n${post.text}`)
-      .join("\n\n");
+    const veckoplanText = `
+📅 VECKOPLAN
+
+🎯 Strategi:
+${veckostrategi}
+
+━━━━━━━━━━
+
+${veckoplan
+  .map(
+    (post) => `
+${post.dag.toUpperCase()}
+
+🕘 ${post.tid}
+
+${post.syfte}
+
+📝 Inlägg:
+${post.text}
+
+📸 Bildidé:
+${post.bildIde}
+
+🎯 Mål:
+${post.mal}
+`,
+  )
+  .join("\n━━━━━━━━━━\n")}
+`;
 
     navigator.clipboard.writeText(veckoplanText);
 
@@ -151,6 +179,27 @@ function App() {
     setTimeout(() => {
       setVeckoplanKopierad(false);
     }, 3000);
+  };
+
+  // Hämtar aktuellt veckonummer.
+  const hamtaVeckonummer = () => {
+    const idag = new Date();
+
+    const startAr = new Date(idag.getFullYear(), 0, 1);
+
+    const dagar = Math.floor((idag - startAr) / (24 * 60 * 60 * 1000));
+
+    return Math.ceil((dagar + 1) / 7);
+  };
+
+  const veckonummer = hamtaVeckonummer();
+
+  // Sparar aktuell veckoplan
+  const sparaVeckoplan = () => {
+    setSparadVeckoplan({
+      strategi: veckostrategi,
+      plan: veckoplan,
+    });
   };
 
   // ====================
@@ -176,32 +225,10 @@ function App() {
       <div
         style={{
           backgroundColor: "white",
-          border: "1px solid #e5e7eb",
-          borderRadius: "12px",
-          padding: "24px",
           marginTop: "20px",
           textAlign: "left",
         }}
       >
-        <h3
-          style={{
-            marginTop: 0,
-            color: "#1e293b",
-          }}
-        >
-          📝 Företagsuppgifter
-        </h3>
-        <p
-          style={{
-            color: "#64748b",
-            lineHeight: "1.6",
-            marginBottom: "20px",
-          }}
-        >
-          Fyll i företagets namn och välj hur inlägget ska genereras. Klicka
-          sedan på "Skapa mitt inlägg".
-        </p>
-
         <InputSection
           foretag={foretag}
           setForetag={setForetag}
@@ -324,6 +351,10 @@ function App() {
         kopieraVeckoplan={kopieraVeckoplan}
         veckoplanKopierad={veckoplanKopierad}
         veckostrategi={veckostrategi}
+        foretag={foretag}
+        veckonummer={veckonummer}
+        sparadVeckoplan={sparadVeckoplan}
+        sparaVeckoplan={sparaVeckoplan}
       />
 
       <Footer />

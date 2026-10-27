@@ -1,0 +1,253 @@
+.result-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-top: 20px;
+  min-height: 80px;
+}
+
+.result-title {
+  color: var(--text);
+}
+
+.syfte-label {
+  margin-bottom: 10px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.main-post {
+  margin-top: 20px;
+  padding: 24px;
+  background: white;
+  border-left: 5px solid #2563eb;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  line-height: 1.8;
+  font-size: 16px;
+  text-align: left;
+  white-space: pre-line;
+}
+
+.copy-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #dbe2ea;
+  cursor: pointer;
+  background: white;
+
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #f8fafc;
+
+  transform: translateY(-1px);
+
+  border-color: #2563eb;
+}
+
+.copy-button:active {
+  transform: translateY(0);
+}
+
+.card {
+  border-radius: var(--radius-md);
+  padding: 12px;
+
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+}
+
+.card-blue {
+  background: var(--primary-light);
+  border-left: 4px solid #60a5fa;
+}
+
+.card-yellow {
+  background: #fefce8;
+  border-left: 4px solid #eab308;
+}
+
+.card-gray {
+  background: #fafafa;
+  border-left: 4px solid #2563eb;
+}
+
+.week-card {
+  margin-top: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+
+  text-align: left;
+
+  transition: all 0.2s ease;
+}
+
+.week-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+.button-primary {
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+.button-success {
+  background: #16a34a;
+  color: white;
+  border: none;
+}
+
+.button-success:hover {
+  filter: brightness(1.05);
+}
+
+.button-secondary {
+  background: white;
+  border: 1px solid #dbe2ea;
+}
+
+.button-secondary:hover {
+  background: #f8fafc;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.info-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+
+.info-box-blue {
+  background: var(--primary-light);
+  border-left: 5px solid #60a5fa;
+}
+
+.info-box-yellow {
+  background: #fff8e7;
+  border-left: 5px solid #f59e0b;
+}
+
+.info-box-gold {
+  background: #fefce8;
+  border-left: 5px solid #eab308;
+}
+
+.info-box-green {
+  background: #f8fafc;
+  border-left: 5px solid #22c55e;
+}
+
+.section-title {
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.muted-text {
+  color: var(--text-muted);
+}
+
+.day-title {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.time-label {
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.syfte-title {
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .result-container {
+    padding: 16px;
+  }
+
+  .main-post {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  .week-card {
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .week-card p {
+    line-height: 1.6;
+    word-break: break-word;
+  }
+
+  .card {
+    border-radius: 12px;
+    padding: 12px;
+    transition: all 0.2s ease;
+
+    text-align: left;
+  }
+
+  .card-title {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  .button,
+  .copy-button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .result-title {
+    font-size: 1.4rem;
+  }
+
+  .day-title {
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  .time-label {
+    text-align: left;
+  }
+
+  .syfte-title {
+    text-align: left;
+  }
+}
