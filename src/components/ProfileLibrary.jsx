@@ -14,8 +14,6 @@ function ProfileLibrary({
     <div className="info-box info-box-blue">
       <h3>🏢 Profilbibliotek</h3>
 
-      {aktivProfil && <p>✅ Aktiv profil: {aktivProfil}</p>}
-
       {profiler.map((profil, index) => (
         <div
           key={index}

@@ -17,15 +17,16 @@ function InputSection({
   tonlagen,
   syften,
   plattformar,
-  profil,
-  sparaProfil,
-  laddaProfil,
-  taBortProfil,
+
   aktivProfil,
 }) {
   return (
     <div className="form-section">
       {/* Företagsnamn och fokus */}
+
+      {aktivProfil && (
+        <p className="helper-text">✅ Aktiv profil: {aktivProfil}</p>
+      )}
 
       <h3 className="form-section-title">📝 Företagsuppgifter</h3>
 
@@ -113,30 +114,6 @@ function InputSection({
           ))}
         </select>
       </div>
-
-      <button onClick={sparaProfil} className="button button-secondary">
-        💾 Spara profil
-      </button>
-
-      {aktivProfil && (
-        <p className="helper-text">✅ Aktiv profil: {aktivProfil}</p>
-      )}
-
-      {profil && (
-        <div className="info-box info-box-blue">
-          <strong>🏢 Sparad profil</strong>
-
-          <p>{profil.foretag}</p>
-
-          <button onClick={laddaProfil} className="button button-secondary">
-            📂 Ladda profil
-          </button>
-
-          <button onClick={taBortProfil} className="button button-secondary">
-            🗑️ Ta bort profil
-          </button>
-        </div>
-      )}
     </div>
   );
 }
