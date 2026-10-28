@@ -17,6 +17,10 @@ function InputSection({
   tonlagen,
   syften,
   plattformar,
+  profil,
+  sparaProfil,
+  laddaProfil,
+  taBortProfil,
 }) {
   return (
     <div className="form-section">
@@ -108,6 +112,26 @@ function InputSection({
           ))}
         </select>
       </div>
+
+      <button onClick={sparaProfil} className="button button-secondary">
+        💾 Spara profil
+      </button>
+
+      {profil && (
+        <div className="info-box info-box-blue">
+          <strong>🏢 Sparad profil</strong>
+
+          <p>{profil.foretag}</p>
+
+          <button onClick={laddaProfil} className="button button-secondary">
+            📂 Ladda profil
+          </button>
+
+          <button onClick={taBortProfil} className="button button-secondary">
+            🗑️ Ta bort profil
+          </button>
+        </div>
+      )}
     </div>
   );
 }
