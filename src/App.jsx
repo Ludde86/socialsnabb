@@ -262,6 +262,17 @@ function App() {
     localStorage.removeItem("profil");
   };
 
+  const laddaProfilFranBibliotek = (profil) => {
+    setForetag(profil.foretag);
+    setTyp(profil.typ);
+    setTon(profil.ton);
+    setPlattform(profil.plattform);
+
+    setFokus("");
+
+    setAktivProfil(profil.foretag);
+  };
+
   const profilFinns = (foretagsnamn) => {
     return profiler.some((profil) => profil.foretag === foretagsnamn);
   };
@@ -301,7 +312,11 @@ function App() {
           aktivProfil={aktivProfil}
         />
 
-        <ProfileLibrary />
+        <ProfileLibrary
+          profiler={profiler}
+          aktivProfil={aktivProfil}
+          laddaProfilFranBibliotek={laddaProfilFranBibliotek}
+        />
 
         <ButtonsSection
           skapaInlagg={skapaInlagg}

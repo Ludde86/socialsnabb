@@ -1,9 +1,41 @@
-function ProfileLibrary() {
+import "./ProfileLibrary.css";
+
+function ProfileLibrary({ profiler, aktivProfil, laddaProfilFranBibliotek }) {
+  if (profiler.length === 0) {
+    return null;
+  }
+
   return (
-    <div>
+    <div className="info-box info-box-blue">
       <h3>🏢 Profilbibliotek</h3>
 
-      <p>Profilbibliotek kommer snart...</p>
+      {aktivProfil && <p>✅ Aktiv profil: {aktivProfil}</p>}
+
+      {profiler.map((profil, index) => (
+        <div
+          key={index}
+          className={`week-card ${
+            aktivProfil === profil.foretag ? "active-profile" : ""
+          }`}
+        >
+          <strong>🏢 {profil.foretag}</strong>
+
+          {aktivProfil === profil.foretag && <p>✅ Aktiv profil</p>}
+
+          <p>Typ: {profil.typ}</p>
+
+          <p>Ton: {profil.ton}</p>
+
+          <p>Plattform: {profil.plattform}</p>
+
+          <button
+            onClick={() => laddaProfilFranBibliotek(profil)}
+            className="button button-secondary"
+          >
+            📂 Ladda profil
+          </button>
+        </div>
+      ))}
     </div>
   );
 }
