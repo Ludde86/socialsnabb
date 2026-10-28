@@ -1,6 +1,11 @@
 import "./ProfileLibrary.css";
 
-function ProfileLibrary({ profiler, aktivProfil, laddaProfilFranBibliotek }) {
+function ProfileLibrary({
+  profiler,
+  aktivProfil,
+  laddaProfilFranBibliotek,
+  taBortProfilFranBibliotek,
+}) {
   if (profiler.length === 0) {
     return null;
   }
@@ -33,6 +38,12 @@ function ProfileLibrary({ profiler, aktivProfil, laddaProfilFranBibliotek }) {
             className="button button-secondary"
           >
             📂 Ladda profil
+          </button>
+          <button
+            onClick={() => taBortProfilFranBibliotek(profil.foretag)}
+            className="button button-secondary"
+          >
+            🗑️ Ta bort profil
           </button>
         </div>
       ))}

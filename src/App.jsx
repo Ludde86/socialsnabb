@@ -273,6 +273,32 @@ function App() {
     setAktivProfil(profil.foretag);
   };
 
+  const taBortProfilFranBibliotek = (foretagsnamn) => {
+    const bekrafta = window.confirm(
+      `Är du säker på att du vill ta bort profilen "${foretagsnamn}"?`,
+    );
+
+    if (!bekrafta) return;
+
+    const uppdateradeProfiler = profiler.filter(
+      (profil) => profil.foretag !== foretagsnamn,
+    );
+
+    setProfiler(uppdateradeProfiler);
+
+    localStorage.setItem("profiler", JSON.stringify(uppdateradeProfiler));
+
+    if (aktivProfil === foretagsnamn) {
+      setAktivProfil(null);
+    }
+
+    if (profil && profil.foretag === foretagsnamn) {
+      setProfil(null);
+
+      localStorage.removeItem("profil");
+    }
+  };
+
   const profilFinns = (foretagsnamn) => {
     return profiler.some((profil) => profil.foretag === foretagsnamn);
   };
@@ -316,6 +342,7 @@ function App() {
           profiler={profiler}
           aktivProfil={aktivProfil}
           laddaProfilFranBibliotek={laddaProfilFranBibliotek}
+          taBortProfilFranBibliotek={taBortProfilFranBibliotek}
         />
 
         <ButtonsSection
