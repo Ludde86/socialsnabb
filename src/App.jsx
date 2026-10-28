@@ -331,6 +331,10 @@ function App() {
           tonlagen={tonlagen}
           syften={syften}
           plattformar={plattformar}
+          profil={profil}
+          sparaProfil={sparaProfil}
+          laddaProfil={laddaProfil}
+          taBortProfil={taBortProfil}
           aktivProfil={aktivProfil}
         />
 

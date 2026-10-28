@@ -17,16 +17,12 @@ function InputSection({
   tonlagen,
   syften,
   plattformar,
-
+  sparaProfil,
   aktivProfil,
 }) {
   return (
     <div className="form-section">
       {/* Företagsnamn och fokus */}
-
-      {aktivProfil && (
-        <p className="helper-text">✅ Aktiv profil: {aktivProfil}</p>
-      )}
 
       <h3 className="form-section-title">📝 Företagsuppgifter</h3>
 
@@ -114,6 +110,14 @@ function InputSection({
           ))}
         </select>
       </div>
+
+      <button onClick={sparaProfil} className="button button-secondary">
+        💾 Spara profil
+      </button>
+
+      {aktivProfil && (
+        <p className="helper-text">✅ Aktiv profil: {aktivProfil}</p>
+      )}
     </div>
   );
 }
