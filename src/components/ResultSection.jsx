@@ -9,8 +9,9 @@ function ResultSection({
   ide,
   kopieraText,
   kopierat,
-  favorit,
+  favoriter,
   sparaFavorit,
+  taBortFavorit,
   kopieraAlternativ,
   syfte,
   veckoplan,
@@ -21,6 +22,7 @@ function ResultSection({
   veckonummer,
   sparadVeckoplan,
   sparaVeckoplan,
+  taBortVeckoplan,
 }) {
   const [visaAlternativ, setVisaAlternativ] = useState(false);
   const [visaHashtags, setVisaHashtags] = useState(false);
@@ -174,17 +176,39 @@ function ResultSection({
         )}
       </div>
 
-      {favorit && (
+      {favoriter.length > 0 && (
         <div className="info-box info-box-gold">
-          <strong>⭐ Sparat favoritinlägg</strong>
+          <strong>⭐ Favoritbibliotek</strong>
 
-          <p
-            style={{
-              whiteSpace: "pre-line",
-            }}
-          >
-            {favorit}
-          </p>
+          <p>{favoriter.length} sparade favoriter</p>
+
+          {favoriter.map((favorit, index) => (
+            <div key={index} className="week-card">
+              <strong>Favorit {index + 1}</strong>
+
+              <p
+                style={{
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {favorit}
+              </p>
+
+              <button
+                onClick={() => kopieraAlternativ(favorit)}
+                className="copy-button"
+              >
+                📋 Kopiera favorit
+              </button>
+
+              <button
+                onClick={() => taBortFavorit(index)}
+                className="button button-secondary"
+              >
+                🗑️ Ta bort
+              </button>
+            </div>
+          ))}
         </div>
       )}
 
@@ -348,6 +372,19 @@ ${post.mal}
             </div>
           )}
         </>
+      )}
+      {sparadVeckoplan && (
+        <div className="info-box info-box-gold">
+          <strong>⭐ Sparad veckoplan</strong>
+
+          <p>🎯 Strategi: {sparadVeckoplan.strategi}</p>
+
+          <p>📅 {sparadVeckoplan.plan.length} inlägg sparade</p>
+
+          <button onClick={taBortVeckoplan} className="button button-secondary">
+            🗑️ Ta bort sparad veckoplan
+          </button>
+        </div>
       )}
     </>
   );

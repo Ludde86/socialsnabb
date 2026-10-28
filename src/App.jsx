@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import QuickTest from "./components/QuickTest";
 import ResultSection from "./components/ResultSection";
 import InputSection from "./components/InputSection";
+import ButtonsSection from "./components/ButtonsSection";
 
 import { useState } from "react";
 import { ideer } from "./data/ideer";
@@ -23,6 +24,7 @@ import { hamtaSyfteText } from "./utils/hamtaSyfteText";
 import { kopieraTillUrklipp } from "./utils/kopiering";
 import { skapaVeckoplanData } from "./utils/skapaVeckoplan";
 import { hamtaVeckonummer } from "./utils/hamtaVeckonummer";
+import { skapaVeckoplanText } from "./utils/skapaVeckoplanText";
 
 function App() {
   // ====================
@@ -40,7 +42,9 @@ function App() {
   const [syfte, setSyfte] = useState("🗣️ Engagemang");
   const [fokus, setFokus] = useState("");
   // Sparar användarens favoritinlägg
-  const [favorit, setFavorit] = useState("");
+  const [favoriter, setFavoriter] = useState(
+    JSON.parse(localStorage.getItem("favoriter")) || [],
+  );
   // Inlägg för kommande vecka
   const [veckoplan, setVeckoplan] = useState([]);
   // Namnet på vald veckostrategi
@@ -48,7 +52,12 @@ function App() {
   // Visar en bekräftelse när hela veckoplanen har kopierats.
   const [veckoplanKopierad, setVeckoplanKopierad] = useState(false);
   // Sparad veckoplan
-  const [sparadVeckoplan, setSparadVeckoplan] = useState(null);
+  const [sparadVeckoplan, setSparadVeckoplan] = useState(
+    JSON.parse(localStorage.getItem("sparadVeckoplan")) || null,
+  );
+  const [profil, setProfil] = useState(
+    JSON.parse(localStorage.getItem("profil")) || null,
+  );
 
   // ====================
   // FUNKTIONER
@@ -118,7 +127,21 @@ function App() {
 
   // Sparar aktuellt inlägg som favorit
   const sparaFavorit = () => {
-    setFavorit(text);
+    if (!text) return;
+
+    const nyaFavoriter = [text, ...favoriter];
+
+    setFavoriter(nyaFavoriter);
+
+    localStorage.setItem("favoriter", JSON.stringify(nyaFavoriter));
+  };
+
+  const taBortFavorit = (index) => {
+    const nyaFavoriter = favoriter.filter((_, i) => i !== index);
+
+    setFavoriter(nyaFavoriter);
+
+    localStorage.setItem("favoriter", JSON.stringify(nyaFavoriter));
   };
 
   // Kopierar huvudinlägget
@@ -142,36 +165,10 @@ function App() {
 
   // Sätter ihop veckoplanens alla dagar till en enda text
   // och kopierar sedan hela planen till urklipp.
+  // Sätter ihop veckoplanens alla dagar till en enda text
+  // och kopierar sedan hela planen till urklipp.
   const kopieraVeckoplan = () => {
-    const veckoplanText = `
-📅 VECKOPLAN
-
-🎯 Strategi:
-${veckostrategi}
-
-━━━━━━━━━━
-
-${veckoplan
-  .map(
-    (post) => `
-${post.dag.toUpperCase()}
-
-🕘 ${post.tid}
-
-${post.syfte}
-
-📝 Inlägg:
-${post.text}
-
-📸 Bildidé:
-${post.bildIde}
-
-🎯 Mål:
-${post.mal}
-`,
-  )
-  .join("\n━━━━━━━━━━\n")}
-`;
+    const veckoplanText = skapaVeckoplanText(veckoplan, veckostrategi);
 
     navigator.clipboard.writeText(veckoplanText);
 
@@ -188,10 +185,48 @@ ${post.mal}
 
   // Sparar aktuell veckoplan
   const sparaVeckoplan = () => {
-    setSparadVeckoplan({
+    const plan = {
       strategi: veckostrategi,
       plan: veckoplan,
-    });
+    };
+
+    setSparadVeckoplan(plan);
+
+    localStorage.setItem("sparadVeckoplan", JSON.stringify(plan));
+  };
+
+  const taBortVeckoplan = () => {
+    setSparadVeckoplan(null);
+
+    localStorage.removeItem("sparadVeckoplan");
+  };
+
+  const sparaProfil = () => {
+    const nyProfil = {
+      foretag,
+      typ,
+      ton,
+      plattform,
+    };
+
+    setProfil(nyProfil);
+
+    localStorage.setItem("profil", JSON.stringify(nyProfil));
+  };
+
+  const laddaProfil = () => {
+    if (!profil) return;
+
+    setForetag(profil.foretag);
+    setTyp(profil.typ);
+    setTon(profil.ton);
+    setPlattform(profil.plattform);
+  };
+
+  const taBortProfil = () => {
+    setProfil(null);
+
+    localStorage.removeItem("profil");
   };
 
   // ====================
@@ -224,35 +259,12 @@ ${post.mal}
           plattformar={plattformar}
         />
 
-        <div className="action-panel">
-          <div className="action-buttons">
-            <button onClick={skapaInlagg} className="button button-primary">
-              🚀 Skapa mitt inlägg
-            </button>
-
-            <button onClick={skapaInlagg} className="button button-secondary">
-              🎲 Slumpa nytt inlägg
-            </button>
-
-            <button
-              onClick={skapaVeckoplan}
-              className="button button-secondary"
-            >
-              📅 Skapa veckoplan
-            </button>
-
-            <br />
-            <br />
-
-            <button onClick={skapaIde} className="button button-secondary">
-              Ge mig en Idé
-            </button>
-
-            <button onClick={rensaFormular} className="button button-secondary">
-              🔄 Börja om
-            </button>
-          </div>
-        </div>
+        <ButtonsSection
+          skapaInlagg={skapaInlagg}
+          skapaVeckoplan={skapaVeckoplan}
+          skapaIde={skapaIde}
+          rensaFormular={rensaFormular}
+        />
       </div>
       {/* Resultat */}
       <ResultSection
@@ -262,8 +274,9 @@ ${post.mal}
         ide={ide}
         kopieraText={kopieraText}
         kopierat={kopierat}
-        favorit={favorit}
+        favoriter={favoriter}
         sparaFavorit={sparaFavorit}
+        taBortFavorit={taBortFavorit}
         kopieraAlternativ={kopieraAlternativ}
         syfte={syfte}
         veckoplan={veckoplan}
@@ -274,6 +287,7 @@ ${post.mal}
         veckonummer={veckonummer}
         sparadVeckoplan={sparadVeckoplan}
         sparaVeckoplan={sparaVeckoplan}
+        taBortVeckoplan={taBortVeckoplan}
       />
 
       <Footer />
