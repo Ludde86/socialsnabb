@@ -5,6 +5,7 @@ import QuickTest from "./components/QuickTest";
 import ResultSection from "./components/ResultSection";
 import InputSection from "./components/InputSection";
 import ButtonsSection from "./components/ButtonsSection";
+import ProfileLibrary from "./components/ProfileLibrary";
 
 import { useState } from "react";
 import { ideer } from "./data/ideer";
@@ -299,6 +300,8 @@ function App() {
           taBortProfil={taBortProfil}
           aktivProfil={aktivProfil}
         />
+
+        <ProfileLibrary />
 
         <ButtonsSection
           skapaInlagg={skapaInlagg}
