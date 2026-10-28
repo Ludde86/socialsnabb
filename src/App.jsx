@@ -59,6 +59,9 @@ function App() {
     JSON.parse(localStorage.getItem("profil")) || null,
   );
   const [aktivProfil, setAktivProfil] = useState(null);
+  const [profiler, setProfiler] = useState(
+    JSON.parse(localStorage.getItem("profiler")) || [],
+  );
 
   // ====================
   // FUNKTIONER
@@ -210,9 +213,31 @@ function App() {
       plattform,
     };
 
-    setProfil(nyProfil);
+    const existerandeProfil = profiler.find(
+      (profil) => profil.foretag === foretag,
+    );
 
-    localStorage.setItem("profil", JSON.stringify(nyProfil));
+    if (existerandeProfil) {
+      const uppdateradeProfiler = profiler.map((profil) =>
+        profil.foretag === foretag ? nyProfil : profil,
+      );
+
+      setProfiler(uppdateradeProfiler);
+
+      localStorage.setItem("profiler", JSON.stringify(uppdateradeProfiler));
+
+      alert("Profil uppdaterad ✅");
+    } else {
+      const nyaProfiler = [...profiler, nyProfil];
+
+      setProfiler(nyaProfiler);
+
+      localStorage.setItem("profiler", JSON.stringify(nyaProfiler));
+
+      alert("Ny profil skapad ✅");
+    }
+
+    setProfil(nyProfil);
   };
 
   const laddaProfil = () => {
@@ -234,6 +259,10 @@ function App() {
     setAktivProfil(null);
 
     localStorage.removeItem("profil");
+  };
+
+  const profilFinns = (foretagsnamn) => {
+    return profiler.some((profil) => profil.foretag === foretagsnamn);
   };
 
   // ====================
