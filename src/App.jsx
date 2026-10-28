@@ -58,6 +58,7 @@ function App() {
   const [profil, setProfil] = useState(
     JSON.parse(localStorage.getItem("profil")) || null,
   );
+  const [aktivProfil, setAktivProfil] = useState(null);
 
   // ====================
   // FUNKTIONER
@@ -221,10 +222,16 @@ function App() {
     setTyp(profil.typ);
     setTon(profil.ton);
     setPlattform(profil.plattform);
+
+    setFokus("");
+
+    setAktivProfil(profil.foretag);
   };
 
   const taBortProfil = () => {
     setProfil(null);
+
+    setAktivProfil(null);
 
     localStorage.removeItem("profil");
   };
@@ -261,6 +268,7 @@ function App() {
           sparaProfil={sparaProfil}
           laddaProfil={laddaProfil}
           taBortProfil={taBortProfil}
+          aktivProfil={aktivProfil}
         />
 
         <ButtonsSection

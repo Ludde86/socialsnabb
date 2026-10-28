@@ -21,6 +21,7 @@ function InputSection({
   sparaProfil,
   laddaProfil,
   taBortProfil,
+  aktivProfil,
 }) {
   return (
     <div className="form-section">
@@ -116,6 +117,10 @@ function InputSection({
       <button onClick={sparaProfil} className="button button-secondary">
         💾 Spara profil
       </button>
+
+      {aktivProfil && (
+        <p className="helper-text">✅ Aktiv profil: {aktivProfil}</p>
+      )}
 
       {profil && (
         <div className="info-box info-box-blue">
