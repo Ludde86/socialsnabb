@@ -382,6 +382,26 @@ function App() {
     localStorage.setItem("kampanjer", JSON.stringify(uppdateradeKampanjer));
   };
 
+  const laddaKampanj = (kampanjData) => {
+    setKampanj(kampanjData);
+  };
+
+  const taBortKampanj = (kampanjId) => {
+    const bekrafta = window.confirm(
+      "Är du säker på att du vill ta bort kampanjen?",
+    );
+
+    if (!bekrafta) return;
+
+    const uppdateradeKampanjer = kampanjer.filter(
+      (kampanj) => kampanj.id !== kampanjId,
+    );
+
+    setKampanjer(uppdateradeKampanjer);
+
+    localStorage.setItem("kampanjer", JSON.stringify(uppdateradeKampanjer));
+  };
+
   // ====================
   // RENDER
   // ====================
@@ -436,7 +456,12 @@ function App() {
         🧪 Skapa testkampanj
       </button>
       <CampaignResult kampanj={kampanj} sparaKampanj={sparaKampanj} />
-      <CampaignLibrary kampanjer={kampanjer} />
+
+      <CampaignLibrary
+        kampanjer={kampanjer}
+        laddaKampanj={laddaKampanj}
+        taBortKampanj={taBortKampanj}
+      />
 
       <p>
         Kampanj status:

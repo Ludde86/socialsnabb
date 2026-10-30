@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CampaignLibrary({ kampanjer }) {
+function CampaignLibrary({ kampanjer, laddaKampanj, taBortKampanj }) {
   const [visaKampanjer, setVisaKampanjer] = useState(false);
 
   if (kampanjer.length === 0) {
@@ -29,6 +29,18 @@ function CampaignLibrary({ kampanjer }) {
               <p>Längd: {kampanj.langd}</p>
 
               <p>Strategi: {kampanj.strategi}</p>
+              <button
+                onClick={() => laddaKampanj(kampanj)}
+                className="button button-secondary"
+              >
+                📂 Ladda kampanj
+              </button>
+              <button
+                onClick={() => taBortKampanj(kampanj.id)}
+                className="button button-secondary"
+              >
+                🗑️ Ta bort kampanj
+              </button>
             </div>
           ))}
         </>
