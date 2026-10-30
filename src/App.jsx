@@ -6,6 +6,8 @@ import ResultSection from "./components/ResultSection";
 import InputSection from "./components/InputSection";
 import ButtonsSection from "./components/ButtonsSection";
 import ProfileLibrary from "./components/ProfileLibrary";
+import CampaignResult from "./components/CampaignResult";
+import CampaignLibrary from "./components/CampaignLibrary";
 
 import { useState } from "react";
 import { ideer } from "./data/ideer";
@@ -62,6 +64,11 @@ function App() {
   const [aktivProfil, setAktivProfil] = useState(null);
   const [profiler, setProfiler] = useState(
     JSON.parse(localStorage.getItem("profiler")) || [],
+  );
+  const [kampanj, setKampanj] = useState(null);
+
+  const [kampanjer, setKampanjer] = useState(
+    JSON.parse(localStorage.getItem("kampanjer")) || [],
   );
 
   // ====================
@@ -303,6 +310,78 @@ function App() {
     return profiler.some((profil) => profil.foretag === foretagsnamn);
   };
 
+  const skapaTestKampanj = () => {
+    setKampanj({
+      id: "kampanj_1",
+
+      namn: "Julkampanj – Pizzeria Bella",
+
+      foretag: "Pizzeria Bella",
+
+      tema: "Julkampanj",
+
+      erbjudande: "15% rabatt på julbord",
+
+      langd: "1 vecka",
+
+      strategi: "Nyheten → Värdet → Påminnelsen",
+
+      inlagg: [
+        {
+          id: "1",
+
+          dag: "Måndag",
+
+          steg: "🎯 Nyheten",
+
+          text: "Någonting spännande är på gång inför julen...",
+
+          bildIde: "Julbelysning och varm stämning",
+
+          hashtags: "#julbord #jul #middag",
+        },
+
+        {
+          id: "2",
+
+          dag: "Onsdag",
+
+          steg: "💎 Värdet",
+
+          text: "Nu är bokningen öppen!",
+
+          bildIde: "Buffé och julmat",
+
+          hashtags: "#julbord #familj #restaurang",
+        },
+
+        {
+          id: "3",
+
+          dag: "Fredag",
+
+          steg: "⏰ Påminnelsen",
+
+          text: "Platserna börjar ta slut!",
+
+          bildIde: "Nästan fullbokad kalender",
+
+          hashtags: "#sistachansen #julbord",
+        },
+      ],
+    });
+  };
+
+  const sparaKampanj = () => {
+    if (!kampanj) return;
+
+    const uppdateradeKampanjer = [...kampanjer, kampanj];
+
+    setKampanjer(uppdateradeKampanjer);
+
+    localStorage.setItem("kampanjer", JSON.stringify(uppdateradeKampanjer));
+  };
+
   // ====================
   // RENDER
   // ====================
@@ -352,6 +431,18 @@ function App() {
           rensaFormular={rensaFormular}
         />
       </div>
+
+      <button onClick={skapaTestKampanj} className="button button-secondary">
+        🧪 Skapa testkampanj
+      </button>
+      <CampaignResult kampanj={kampanj} sparaKampanj={sparaKampanj} />
+      <CampaignLibrary kampanjer={kampanjer} />
+
+      <p>
+        Kampanj status:
+        {kampanj ? " JA" : " NEJ"}
+      </p>
+
       {/* Resultat */}
       <ResultSection
         text={text}
