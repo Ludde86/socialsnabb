@@ -8,6 +8,7 @@ import ButtonsSection from "./components/ButtonsSection";
 import ProfileLibrary from "./components/ProfileLibrary";
 import CampaignResult from "./components/CampaignResult";
 import CampaignLibrary from "./components/CampaignLibrary";
+import CampaignPlanner from "./components/CampaignPlanner";
 
 import { useState } from "react";
 import { ideer } from "./data/ideer";
@@ -28,6 +29,7 @@ import { kopieraTillUrklipp } from "./utils/kopiering";
 import { skapaVeckoplanData } from "./utils/skapaVeckoplan";
 import { hamtaVeckonummer } from "./utils/hamtaVeckonummer";
 import { skapaVeckoplanText } from "./utils/skapaVeckoplanText";
+import { skapaKampanj } from "./utils/skapaKampanj";
 
 function App() {
   // ====================
@@ -70,6 +72,12 @@ function App() {
   const [kampanjer, setKampanjer] = useState(
     JSON.parse(localStorage.getItem("kampanjer")) || [],
   );
+
+  const [tema, setTema] = useState("");
+
+  const [erbjudande, setErbjudande] = useState("");
+
+  const [langd, setLangd] = useState("1 vecka");
 
   // ====================
   // FUNKTIONER
@@ -402,6 +410,17 @@ function App() {
     localStorage.setItem("kampanjer", JSON.stringify(uppdateradeKampanjer));
   };
 
+  const genereraKampanj = () => {
+    const nyKampanj = skapaKampanj({
+      foretag,
+      tema,
+      erbjudande,
+      langd,
+    });
+
+    setKampanj(nyKampanj);
+  };
+
   // ====================
   // RENDER
   // ====================
@@ -442,6 +461,16 @@ function App() {
           aktivProfil={aktivProfil}
           laddaProfilFranBibliotek={laddaProfilFranBibliotek}
           taBortProfilFranBibliotek={taBortProfilFranBibliotek}
+        />
+
+        <CampaignPlanner
+          tema={tema}
+          setTema={setTema}
+          erbjudande={erbjudande}
+          setErbjudande={setErbjudande}
+          langd={langd}
+          setLangd={setLangd}
+          genereraKampanj={genereraKampanj}
         />
 
         <ButtonsSection
