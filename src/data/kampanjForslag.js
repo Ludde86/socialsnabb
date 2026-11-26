@@ -20,4 +20,11 @@ export const kampanjForslag = {
     "🥞 Helgbrunch",
     "🎂 Tårtor & catering",
   ],
+  Frisör: [
+    "⏰ Sista-minuten-tider",
+    "✨ Före & efter",
+    "☀️ Säsongens look",
+    "🎓 Bal, student & bröllop",
+    "🧴 Produkterbjudande",
+  ],
 };
