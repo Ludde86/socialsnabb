@@ -8,6 +8,8 @@ function CampaignPlanner({
   setErbjudande,
   langd,
   setLangd,
+  aktivStrategi,
+  setAktivStrategi,
   genereraKampanj,
 }) {
   return (
@@ -31,7 +33,13 @@ function CampaignPlanner({
           <button
             key={key}
             type="button"
-            onClick={() => setTema(prefill)}
+            onClick={() => {
+              setTema(prefill);
+
+              if (arObjekt) {
+                setAktivStrategi(forslag.strategy);
+              }
+            }}
             className="button button-secondary"
           >
             {label}

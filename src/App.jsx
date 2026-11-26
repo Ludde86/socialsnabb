@@ -74,10 +74,9 @@ function App() {
   );
 
   const [tema, setTema] = useState("");
-
   const [erbjudande, setErbjudande] = useState("");
-
   const [langd, setLangd] = useState("1 vecka");
+  const [aktivStrategi, setAktivStrategi] = useState(null);
 
   // ====================
   // FUNKTIONER
@@ -416,6 +415,7 @@ function App() {
       tema,
       erbjudande,
       langd,
+      aktivStrategi,
     });
 
     setKampanj(nyKampanj);
@@ -471,6 +471,8 @@ function App() {
           setErbjudande={setErbjudande}
           langd={langd}
           setLangd={setLangd}
+          aktivStrategi={aktivStrategi}
+          setAktivStrategi={setAktivStrategi}
           genereraKampanj={genereraKampanj}
         />
 

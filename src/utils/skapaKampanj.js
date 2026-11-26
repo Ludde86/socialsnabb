@@ -1,15 +1,23 @@
-export function skapaKampanj({ foretag, tema, erbjudande, langd }) {
+export function skapaKampanj({
+  foretag,
+  tema,
+  erbjudande,
+  langd,
+  aktivStrategi,
+}) {
   console.log({
     foretag,
     tema,
     erbjudande,
     langd,
+    aktivStrategi,
   });
 
   let strategi = "";
   let inlagg = [];
 
   console.log("längd: ", langd);
+  console.log("Strategi i motorn:", aktivStrategi);
 
   if (langd === "3 dagar") {
     strategi = "Lanseringen → Sista chansen";
