@@ -1,3 +1,5 @@
+import { kampanjForslag } from "../data/kampanjForslag";
+
 function CampaignPlanner({
   typ,
   tema,
@@ -12,32 +14,16 @@ function CampaignPlanner({
     <div className="form-section">
       <h3>🚀 AI-kampanjplanerare</h3>
 
-      {typ === "Pizzeria" && (
-        <>
-          <p>🍕 Snabbval för pizzeria</p>
-          <div className="quick-actions">
-            <button type="button" onClick={() => setTema("Veckans pizza - ")}>
-              🍕 Veckans pizza
-            </button>
-
-            <button type="button" onClick={() => setTema("Dagens lunch - ")}>
-              🥗 Dagens lunch
-            </button>
-
-            <button type="button" onClick={() => setTema("Familjepaket - ")}>
-              👨‍👩‍👧 Familjepaket
-            </button>
-
-            <button type="button" onClick={() => setTema("Matchkväll - ")}>
-              ⚽ Matchkväll
-            </button>
-
-            <button type="button" onClick={() => setTema("Ny meny - ")}>
-              🔥 Ny meny
-            </button>
-          </div>
-        </>
-      )}
+      {kampanjForslag[typ]?.map((forslag) => (
+        <button
+          key={forslag}
+          type="button"
+          onClick={() => setTema(forslag.replace(/^[^\s]+\s/, "") + " - ")}
+          className="button button-secondary"
+        >
+          {forslag}
+        </button>
+      ))}
 
       <label>🎯 Vad handlar kampanjen om?</label>
 
