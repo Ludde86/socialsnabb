@@ -16,16 +16,28 @@ function CampaignPlanner({
 
       <label>🎯 Vad handlar kampanjen om?</label>
 
-      {kampanjForslag[typ]?.map((forslag) => (
-        <button
-          key={forslag}
-          type="button"
-          onClick={() => setTema(forslag.replace(/^[^\s]+\s/, "") + " - ")}
-          className="button button-secondary"
-        >
-          {forslag}
-        </button>
-      ))}
+      {kampanjForslag[typ]?.map((forslag) => {
+        const arObjekt = typeof forslag === "object";
+
+        const label = arObjekt ? forslag.label : forslag;
+
+        const prefill = arObjekt
+          ? forslag.prefill
+          : forslag.replace(/^[^\s]+\s/, "") + " - ";
+
+        const key = arObjekt ? forslag.id : forslag;
+
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setTema(prefill)}
+            className="button button-secondary"
+          >
+            {label}
+          </button>
+        );
+      })}
 
       <input
         type="text"
