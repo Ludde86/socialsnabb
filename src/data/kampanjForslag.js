@@ -18,13 +18,78 @@ export const kampanjForslag = {
       },
     },
 
-    "🥗 Dagens lunch",
+    {
+      id: "daily_lunch",
 
-    "👨‍👩‍👧 Familjepaket",
+      label: "🥗 Dagens lunch",
 
-    "⚽ Matchkväll",
+      prefill: "Dagens lunch - ",
 
-    "🔥 Ny meny",
+      strategy: {
+        strategyType: "daily_offer",
+
+        goal: "Locka fler lunchgäster idag",
+
+        angle: "Snabbt, prisvärt och smidigt under arbetsdagen",
+
+        cta: "Välkommen in på lunch eller ring och förbeställ",
+      },
+    },
+
+    {
+      id: "family_bundle",
+
+      label: "👨‍👩‍👧 Familjepaket",
+
+      prefill: "Familjepaket - ",
+
+      strategy: {
+        strategyType: "bundle_upsell",
+
+        goal: "Öka snittordervärdet",
+
+        angle: "Gemenskap, bekvämlighet och att slippa laga mat",
+
+        cta: "Beställ familjepaketet idag",
+      },
+    },
+
+    {
+      id: "match_night",
+
+      label: "⚽ Matchkväll",
+
+      prefill: "Matchkväll - ",
+
+      strategy: {
+        strategyType: "event_tie_in",
+
+        goal: "Driva försäljning inför ett event",
+
+        angle:
+          "Uppladdning, stämning, gemenskap och att ha maten redo före avspark",
+
+        cta: "Beställ innan avspark",
+      },
+    },
+
+    {
+      id: "new_menu",
+
+      label: "🔥 Ny meny",
+
+      prefill: "Ny meny - ",
+
+      strategy: {
+        strategyType: "novelty_launch",
+
+        goal: "Få kunder att prova något nytt",
+
+        angle: "Nyfikenhet, nyheter och spännande smaker",
+
+        cta: "Kom in och testa nyheterna idag",
+      },
+    },
   ],
   Gym: [
     "🏋️ Gratis provträning",
