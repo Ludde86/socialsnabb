@@ -464,6 +464,7 @@ function App() {
         />
 
         <CampaignPlanner
+          typ={typ}
           tema={tema}
           setTema={setTema}
           erbjudande={erbjudande}

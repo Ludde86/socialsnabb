@@ -1,4 +1,5 @@
 function CampaignPlanner({
+  typ,
   tema,
   setTema,
   erbjudande,
@@ -10,6 +11,33 @@ function CampaignPlanner({
   return (
     <div className="form-section">
       <h3>🚀 AI-kampanjplanerare</h3>
+
+      {typ === "Pizzeria" && (
+        <>
+          <p>🍕 Snabbval för pizzeria</p>
+          <div className="quick-actions">
+            <button type="button" onClick={() => setTema("Veckans pizza - ")}>
+              🍕 Veckans pizza
+            </button>
+
+            <button type="button" onClick={() => setTema("Dagens lunch - ")}>
+              🥗 Dagens lunch
+            </button>
+
+            <button type="button" onClick={() => setTema("Familjepaket - ")}>
+              👨‍👩‍👧 Familjepaket
+            </button>
+
+            <button type="button" onClick={() => setTema("Matchkväll - ")}>
+              ⚽ Matchkväll
+            </button>
+
+            <button type="button" onClick={() => setTema("Ny meny - ")}>
+              🔥 Ny meny
+            </button>
+          </div>
+        </>
+      )}
 
       <label>🎯 Vad handlar kampanjen om?</label>
 
