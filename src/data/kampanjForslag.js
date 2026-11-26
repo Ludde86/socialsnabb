@@ -6,4 +6,11 @@ export const kampanjForslag = {
     "⚽ Matchkväll",
     "🔥 Ny meny",
   ],
+  Gym: [
+    "🏋️ Gratis provträning",
+    "💪 PT-paket",
+    "👥 Värva en vän",
+    "🔥 Nytt träningspass",
+    "📈 Kom igång idag",
+  ],
 };

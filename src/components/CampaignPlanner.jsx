@@ -14,6 +14,8 @@ function CampaignPlanner({
     <div className="form-section">
       <h3>🚀 AI-kampanjplanerare</h3>
 
+      <label>🎯 Vad handlar kampanjen om?</label>
+
       {kampanjForslag[typ]?.map((forslag) => (
         <button
           key={forslag}
@@ -24,8 +26,6 @@ function CampaignPlanner({
           {forslag}
         </button>
       ))}
-
-      <label>🎯 Vad handlar kampanjen om?</label>
 
       <input
         type="text"
